@@ -26,8 +26,9 @@ app.use(
 
       const isAllowedExact = allowedOrigins.includes(origin);
       const isVercelPreview = /^https:\/\/civic-issue-reporter-[\w-]+\.vercel\.app$/.test(origin);
+      const isLocalDev = /^http:\/\/localhost:\d+$/.test(origin);
 
-      if (isAllowedExact || isVercelPreview) {
+      if (isAllowedExact || isVercelPreview || isLocalDev) {
         return callback(null, true);
       }
       return callback(new Error(`CORS blocked for origin: ${origin}`));
