@@ -39,7 +39,7 @@ cp .env.example .env
 ```
 Edit `.env`:
 - `MONGO_URI` — use a local MongoDB (`mongodb://127.0.0.1:27017/civic-reporter`) or a free
-  MongoDB Atlas cluster (recommended — easier for deployment later)
+  MongoDB Atlas cluster 
 - `JWT_SECRET` — any long random string
 - `AI_API_KEY` — get a free/cheap key from https://platform.openai.com (or use
   https://openrouter.ai for free-tier models if you want to avoid billing setup).
@@ -61,17 +61,16 @@ npm run dev
 ```
 Frontend runs on `http://localhost:5173`
 
-### 3. Create an admin account
+<!-- ### 3. Create an admin account
 Register normally through the UI, then manually update that user's `role` field to
 `"admin"` in MongoDB (using MongoDB Compass or the `mongosh` shell):
 ```js
 db.users.updateOne({ email: "your@email.com" }, { $set: { role: "admin" } })
-```
+``` -->
 
-## Deploying (so you have a live link for your resume)
+## Deploying 
 - **Backend:** Render.com or Railway.app (free tier) — connect your GitHub repo, set env vars
 - **Frontend:** Vercel or Netlify (free tier) — connect repo, set `VITE_API_URL` to your
   deployed backend URL
 - **Database:** MongoDB Atlas free tier (M0 cluster)
 
-This gets you a real live link to put on your resume, not just a GitHub repo.
