@@ -117,7 +117,7 @@ export default function ReportForm() {
 
   return (
     <div className="max-w-xl mx-auto mt-10 bg-white rounded-2xl border border-[#dce8f5] p-8">
-      <h1 className="text-2xl font-bold text-navy mb-2">Report an Issue</h1>
+      <h1 className="font-display text-2xl font-semibold text-navy mb-2">Report an Issue</h1>
       <p className="text-sm text-gray-500 mb-6">
         Our AI will automatically categorize and prioritize your report.
       </p>
@@ -191,12 +191,33 @@ export default function ReportForm() {
           )}
         </div>
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
-          className="text-sm"
-        />
+        <div>
+          <label className="text-sm text-gray-600 mb-1 block">Photo evidence</label>
+          <div className="flex gap-3 flex-wrap">
+            <label className="flex-1 min-w-[140px] text-center bg-[#eef3fb] text-primary text-sm px-4 py-3 rounded-lg cursor-pointer hover:bg-[#e0ebfa] transition-colors">
+              📷 Take Photo
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={(e) => setImage(e.target.files[0])}
+                className="hidden"
+              />
+            </label>
+            <label className="flex-1 min-w-[140px] text-center bg-[#eef3fb] text-primary text-sm px-4 py-3 rounded-lg cursor-pointer hover:bg-[#e0ebfa] transition-colors">
+              🖼️ Choose from Gallery
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+                className="hidden"
+              />
+            </label>
+          </div>
+          {image && (
+            <p className="text-xs text-green-600 mt-2">✓ {image.name} selected</p>
+          )}
+        </div>
 
         <button
           type="submit"

@@ -14,12 +14,28 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
+// Allow the configured production URL, plus any Vercel preview deployment
+// (Vercel generates a new random-hash URL per push, so we can't hardcode all of them)
+const allowedOrigins = [process.env.CLIENT_URL];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow non-browser requests (e.g. curl, Postman) which send no origin
+      if (!origin) return callback(null, true);
+
+      const isAllowedExact = allowedOrigins.includes(origin);
+      const isVercelPreview = /^https:\/\/civic-issue-reporter-[\w-]+\.vercel\.app$/.test(origin);
+
+      if (isAllowedExact || isVercelPreview) {
+        return callback(null, true);
+      }
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Serve uploaded report images statically
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/reports", reportRoutes);

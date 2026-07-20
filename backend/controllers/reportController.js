@@ -1,5 +1,6 @@
 import Report from "../models/Report.js";
 import { classifyReport } from "../utils/aiClassifier.js";
+import { uploadBufferToCloudinary } from "../utils/cloudinaryUpload.js";
 
 // POST /api/reports  (citizen, with optional image)
 export const createReport = async (req, res) => {
@@ -13,11 +14,17 @@ export const createReport = async (req, res) => {
     // Run AI classification before saving — this is the "AI integration" step
     const { category, priority, aiReasoning } = await classifyReport(title, description);
 
+    // Upload image to Cloudinary if one was provided (never touches local disk)
+    let imageUrl;
+    if (req.file) {
+      imageUrl = await uploadBufferToCloudinary(req.file.buffer);
+    }
+
     const report = await Report.create({
       reportedBy: req.user._id,
       title,
       description,
-      imageUrl: req.file ? `/uploads/${req.file.filename}` : undefined,
+      imageUrl,
       location: { address, lat: Number(lat), lng: Number(lng) },
       incidentDate: incidentDate || Date.now(),
       category,

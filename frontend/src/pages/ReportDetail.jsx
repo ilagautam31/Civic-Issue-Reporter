@@ -35,7 +35,7 @@ export default function ReportDetail() {
   return (
     <div className="max-w-2xl mx-auto mt-8 bg-white rounded-2xl border border-[#dce8f5] p-8">
       <div className="flex justify-between items-start mb-4">
-        <h1 className="text-2xl font-bold text-navy">{report.title}</h1>
+        <h1 className="font-display text-2xl font-semibold text-navy">{report.title}</h1>
         <span className="text-xs px-3 py-1 rounded-full bg-[#eef3fb] text-primary capitalize">
           {report.category}
         </span>
@@ -43,17 +43,37 @@ export default function ReportDetail() {
 
       {report.imageUrl && (
         <img
-          src={`${import.meta.env.VITE_API_BASE || "https://civic-issue-reporter-nf72.onrender.com"}${report.imageUrl}`}
+          src={report.imageUrl}
           alt={report.title}
           className="w-full h-64 object-cover rounded-xl mb-4"
         />
       )}
 
       <p className="text-gray-700 mb-2">{report.description}</p>
-      <div className="flex flex-wrap gap-x-4 text-xs text-gray-500 mb-4">
-        {report.location?.address && <span>📍 {report.location.address}</span>}
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 mb-4">
+        {report.location?.address && (
+          <a
+            href={`https://www.google.com/maps?q=${report.location.lat},${report.location.lng}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary hover:underline"
+          >
+            📍 {report.location.address}
+          </a>
+        )}
         {report.incidentDate && (
           <span>🗓 Noticed on {new Date(report.incidentDate).toLocaleDateString()}</span>
+        )}
+        {report.createdAt && (
+          <span>
+            🕐 Submitted{" "}
+            {new Date(report.createdAt).toLocaleString(undefined, {
+              day: "numeric",
+              month: "short",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
         )}
       </div>
 

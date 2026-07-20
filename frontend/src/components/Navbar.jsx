@@ -13,8 +13,8 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white border-b border-[#dce8f5] px-6 py-4 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold text-primary">
+    <nav className="bg-white border-b border-[#dce8f5] px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+      <Link to="/" className="font-display text-xl font-semibold text-primary">
         Civic Reporter
       </Link>
       <div className="flex items-center gap-4">

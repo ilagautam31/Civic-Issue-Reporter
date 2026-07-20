@@ -14,9 +14,11 @@ export default function Home() {
 
   return (
     <div className="max-w-5xl mx-auto p-6">
-      <div className="bg-gradient-to-br from-[#f8fafd] to-[#e7eff9] rounded-2xl p-6 mb-6">
-        <h1 className="text-2xl font-bold text-navy mb-1">Civic Issue Feed</h1>
-        <p className="text-gray-600 text-sm">
+      <div className="bg-gradient-to-br from-[#f8fafd] to-[#e7eff9] rounded-2xl p-8 mb-6">
+        <h1 className="font-display text-3xl font-semibold text-navy mb-2">
+          Civic Issue Feed
+        </h1>
+        <p className="text-gray-600 text-sm max-w-xl">
           Report local issues, track resolution, help your community stay accountable.
         </p>
       </div>

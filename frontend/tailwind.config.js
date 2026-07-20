@@ -8,6 +8,10 @@ export default {
         secondary: "#0d9488",
         navy: "#07112e",
       },
+      fontFamily: {
+        display: ["Fraunces", "serif"],
+        body: ["Inter", "system-ui", "sans-serif"],
+      },
     },
   },
   plugins: [],

@@ -1,18 +1,13 @@
 import multer from "multer";
-import path from "path";
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
-  },
-});
+// Files are held in memory (as a buffer) rather than written to disk,
+// then streamed straight to Cloudinary in the controller. This avoids
+// ever touching local disk, which Render's free tier wipes on restart.
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-  const allowed = /jpeg|jpg|png|webp/;
-  const isValid = allowed.test(path.extname(file.originalname).toLowerCase());
-  if (isValid) return cb(null, true);
+  const allowed = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+  if (allowed.includes(file.mimetype)) return cb(null, true);
   cb(new Error("Only image files (jpg, jpeg, png, webp) are allowed"));
 };
 
