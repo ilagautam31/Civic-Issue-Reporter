@@ -30,7 +30,7 @@ export default function ReportCard({ report }) {
 
       {report.imageUrl && (
         <img
-          src={`${import.meta.env.VITE_API_BASE || "http://localhost:5000"}${report.imageUrl}`}
+          src={`${import.meta.env.VITE_API_BASE || "https://civic-issue-reporter-nf72.onrender.com"}${report.imageUrl}`}
           alt={report.title}
           className="w-full h-40 object-cover rounded-xl mb-3"
         />
