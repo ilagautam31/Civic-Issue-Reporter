@@ -19,10 +19,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 max-w-3xl">
             <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-              Make civic issues visible, trustworthy, and ready for action.
+              Makes civic issues visible, trustworthy and ready for action.
             </h1>
             <p className="mt-4 text-base leading-7 text-slate-600">
-              CivicTrack surfaces local issues, connects community reports, and keeps progress transparent.
+              CivicTrack surfaces local issues, connects community reports and keeps progress transparent.
             </p>
           </div>
 
