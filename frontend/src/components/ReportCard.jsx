@@ -1,87 +1,74 @@
 import { Link } from "react-router-dom";
-import { MapPin, Calendar, ChevronUp, Construction, Trash2, Lightbulb, Droplets, AlertTriangle } from "lucide-react";
 
-const priorityColors = {
-  high: "bg-red-50 text-red-700 border-red-200",
-  medium: "bg-amber-50 text-amber-700 border-amber-200",
-  low: "bg-green-50 text-green-700 border-green-200",
-};
-
-const statusColors = {
-  reported: "bg-gray-100 text-gray-700",
-  in_progress: "bg-blue-50 text-blue-700",
-  resolved: "bg-green-50 text-green-700",
-  rejected: "bg-red-50 text-red-700",
-};
-
-const categoryIcons = {
-  pothole: Construction,
-  garbage: Trash2,
-  streetlight: Lightbulb,
-  water: Droplets,
-  sewage: Droplets,
-  other: AlertTriangle,
+const statusMap = {
+  reported: "Pending",
+  in_progress: "In Progress",
+  resolved: "Resolved",
+  rejected: "Rejected",
 };
 
 export default function ReportCard({ report }) {
-  const CategoryIcon = categoryIcons[report.category] || AlertTriangle;
+  const classification = (report.aiClassification || report.classification || "Medium").toLowerCase();
+  const classificationLabel = classification.charAt(0).toUpperCase() + classification.slice(1);
+  const formattedStatus = statusMap[report.status] || report.status?.replace("_", " ") || "Unknown";
+  const incidentDate = report.incidentDate ? new Date(report.incidentDate) : null;
+  const dateLabel = incidentDate
+    ? `${incidentDate.toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })} • ${incidentDate.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}`
+    : "Date unavailable";
+  const location = report.location?.address || "Location unavailable";
+  const upvotes = report.upvotes?.length || 0;
 
   return (
     <Link
       to={`/report/${report._id}`}
-      className="group block bg-white rounded-2xl border border-[#dce8f5] p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+      className="group block overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
     >
-      <div className="flex justify-between items-start mb-3 gap-3">
-        <h3 className="font-display font-semibold text-navy text-lg leading-snug">
-          {report.title}
-        </h3>
-        <span
-          className={`shrink-0 text-xs font-medium px-2.5 py-1 rounded-full border ${priorityColors[report.priority]}`}
-        >
-          {report.priority}
-        </span>
-      </div>
-
-      {report.imageUrl && (
-        <img
-          src={report.imageUrl}
-          alt={report.title}
-          className="w-full h-40 object-cover rounded-xl mb-3"
-        />
-      )}
-
-      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{report.description}</p>
-
-      <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-        <span className="capitalize inline-flex items-center gap-1.5 bg-[#eef3fb] text-primary px-2.5 py-1 rounded-full font-medium">
-          <CategoryIcon size={13} />
-          {report.category}
-        </span>
-        <span className={`px-2.5 py-1 rounded-full capitalize font-medium ${statusColors[report.status]}`}>
-          {report.status.replace("_", " ")}
-        </span>
-        <span className="inline-flex items-center gap-1 text-gray-600 font-medium">
-          <ChevronUp size={14} /> {report.upvotes?.length || 0}
-        </span>
-      </div>
-
-      <div className="flex items-center gap-4 text-xs text-gray-400 pt-2 border-t border-[#eef3fb]">
-        {report.incidentDate && (
-          <span className="inline-flex items-center gap-1">
-            <Calendar size={12} />
-            {new Date(report.incidentDate).toLocaleDateString(undefined, {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
+      <div className="space-y-4">
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="text-lg font-semibold tracking-tight text-slate-950">{report.title}</h3>
+          <span className="inline-flex rounded-full border border-yellow-200 bg-yellow-50 px-3 py-1 text-sm font-semibold text-yellow-800">
+            {classificationLabel}
           </span>
+        </div>
+
+        {report.imageUrl && (
+          <img
+            src={report.imageUrl}
+            alt={report.title}
+            className="h-48 w-full rounded-[1.25rem] object-cover"
+          />
         )}
-        {report.location?.address && (
-          <span className="inline-flex items-center gap-1 truncate">
-            <MapPin size={12} />
-            <span className="truncate">{report.location.address}</span>
+
+        <p className="text-sm leading-6 text-slate-600">{report.description}</p>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-sm font-semibold text-slate-700">Current Status:</span>
+          <span className={`inline-flex rounded-full px-3 py-1 text-sm font-semibold ${
+            formattedStatus === 'Rejected'
+              ? 'bg-rose-100 text-rose-700 border border-rose-200'
+              : formattedStatus === 'Resolved'
+              ? 'bg-sky-100 text-sky-700 border border-sky-200'
+              : formattedStatus === 'In Progress'
+              ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+              : 'bg-slate-100 text-slate-700 border border-slate-200'
+          }`}>
+            {formattedStatus}
           </span>
-        )}
+        </div>
+
+        <div className="mt-4 border-t border-slate-200 pt-4 text-sm text-slate-500">
+          <div className="flex items-center justify-between">
+            <div>{dateLabel}</div>
+            <div className="inline-flex items-center rounded-full bg-sky-50 px-3 py-1 text-sm font-semibold text-sky-700">
+              {upvotes} upvotes
+            </div>
+          </div>
+          <div className="mt-2 text-sm text-slate-500">📍{location}</div>
+        </div>
       </div>
     </Link>
   );
