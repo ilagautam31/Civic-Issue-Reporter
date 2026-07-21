@@ -5,7 +5,7 @@ import fetch from "node-fetch";
  * return a structured classification. Falls back to safe defaults if the
  * AI call fails or the API key isn't set, so report creation never breaks.
  */
-export const classifyReport = async (title, description) => {
+export const classifyReport = async (title, description,imageUrl) => {
   const fallback = {
     category: "other",
     priority: "medium",
@@ -20,6 +20,7 @@ export const classifyReport = async (title, description) => {
 
 Title: "${title}"
 Description: "${description}"
+${imageUrl ? "\nAlso look at the attached photo to judge severity — a photo showing a deep/dangerous issue should raise priority even if the description undersells it." : ""}
 
 Respond with ONLY a JSON object, no other text, in this exact format:
 {"category": "pothole|garbage|streetlight|water|sewage|other", "priority": "low|medium|high", "reasoning": "one short sentence explaining the priority"}
@@ -27,6 +28,16 @@ Respond with ONLY a JSON object, no other text, in this exact format:
 Priority guidance: "high" = safety risk (deep pothole, exposed wiring, sewage overflow), "medium" = inconvenience but not urgent, "low" = cosmetic/minor.`;
 
   try {
+
+    // Build message content — plain text if no image, or a vision-style
+    // array (text + image block) if a photo was attached
+    const messageContent = imageUrl
+      ? [
+          { type: "text", text: prompt },
+          { type: "image_url", image_url: { url: imageUrl } },
+        ]
+      : prompt;
+
     const response = await fetch(process.env.AI_API_URL, {
       method: "POST",
       headers: {
@@ -35,7 +46,7 @@ Priority guidance: "high" = safety risk (deep pothole, exposed wiring, sewage ov
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
-        messages: [{ role: "user", content: prompt }],
+        messages: [{ role: "user", content: messageContent }],
         temperature: 0.2,
       }),
     });

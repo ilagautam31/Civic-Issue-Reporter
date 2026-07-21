@@ -11,14 +11,14 @@ export const createReport = async (req, res) => {
       return res.status(400).json({ message: "Title, description and location are required" });
     }
 
-    // Run AI classification before saving — this is the "AI integration" step
-    const { category, priority, aiReasoning } = await classifyReport(title, description);
-
-    // Upload image to Cloudinary if one was provided (never touches local disk)
+    // Upload image to Cloudinary if one was provided 
     let imageUrl;
     if (req.file) {
       imageUrl = await uploadBufferToCloudinary(req.file.buffer);
     }
+
+    // Run AI classification before saving — this is the "AI integration" step
+    const { category, priority, aiReasoning } = await classifyReport(title, description, imageUrl);
 
     const report = await Report.create({
       reportedBy: req.user._id,
