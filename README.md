@@ -8,7 +8,7 @@ dashboard to track and resolve reports.
 ## Tech Stack
 - **Frontend:** React (Vite), Redux Toolkit, React Router, Tailwind CSS, Axios
 - **Backend:** Node.js, Express, MongoDB (Mongoose), JWT auth, Multer (image upload)
-- **AI:** OpenAI-compatible chat completion API for report classification
+- **AI:** Openrouter/openai-compatible chat completion API for report classification
 
 ## Project Structure
 ```
