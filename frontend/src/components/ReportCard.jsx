@@ -26,13 +26,14 @@ export default function ReportCard({ report }) {
 
   const formattedStatus = statusMap[report.status] || report.status?.replace("_", " ") || "Unknown";
   const incidentDate = report.incidentDate ? new Date(report.incidentDate) : null;
-  const dateLabel = incidentDate
-    ? `${incidentDate.toLocaleDateString(undefined, {
+  const submittedLabel = report.createdAt
+    ? new Date(report.createdAt).toLocaleString(undefined, {
         day: "numeric",
         month: "short",
-        year: "numeric",
-      })} • ${incidentDate.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}`
-    : "Date unavailable";
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : null;
   const location = report.location?.address || "Location unavailable";
   const upvotes = report.upvotes?.length || 0;
 
@@ -76,7 +77,7 @@ export default function ReportCard({ report }) {
 
         <div className="mt-4 border-t border-slate-200 pt-4 text-sm text-slate-500">
           <div className="flex items-center justify-between">
-            <div>{dateLabel}</div>
+            <div>{submittedLabel}</div>
             <div className="inline-flex items-center rounded-full bg-sky-50 px-3 py-1 text-sm font-semibold text-sky-700">
               {upvotes} upvotes
             </div>

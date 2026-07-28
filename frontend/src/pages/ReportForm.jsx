@@ -166,7 +166,7 @@ export default function ReportForm() {
           <label className="text-sm text-gray-600 mb-1 block">Location</label>
           <input
             type="text"
-            placeholder="Address / landmark (e.g. Near City Hospital, MG Road, Ghaziabad)"
+            placeholder="Address / landmark"
             required
             className="border border-[#dce8f5] rounded-lg px-4 py-2 w-full"
             value={form.address}
