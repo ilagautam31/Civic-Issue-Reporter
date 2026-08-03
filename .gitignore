@@ -19,3 +19,6 @@ backend/uploads/*
 # OS/editor files
 .DS_Store
 *.log
+
+#extra 
+INTERVIEW_PREP.md
