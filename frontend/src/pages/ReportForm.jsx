@@ -179,7 +179,7 @@ export default function ReportForm() {
               disabled={locating}
               className="text-sm bg-[#eef3fb] text-primary px-4 py-2 rounded-lg disabled:opacity-50"
             >
-              {locating ? "Locating..." : "🔍 Find This Address"}
+              {locating ? "Locating..." : " Find This Address"}
             </button>
             <button
               type="button"
@@ -187,7 +187,7 @@ export default function ReportForm() {
               disabled={locating}
               className="text-sm bg-[#eef3fb] text-primary px-4 py-2 rounded-lg disabled:opacity-50"
             >
-              📍 Use My Current Location
+               Use My Current Location
             </button>
           </div>
           {location.lat && (
@@ -201,7 +201,7 @@ export default function ReportForm() {
           <label className="text-sm text-gray-600 mb-1 block">Photo evidence</label>
           <div className="flex gap-3 flex-wrap">
             <label className="flex-1 min-w-[140px] text-center bg-[#eef3fb] text-primary text-sm px-4 py-3 rounded-lg cursor-pointer hover:bg-[#e0ebfa] transition-colors">
-              📷 Take Photo
+               Take Photo
               <input
                 type="file"
                 accept="image/*"
@@ -211,7 +211,7 @@ export default function ReportForm() {
               />
             </label>
             <label className="flex-1 min-w-[140px] text-center bg-[#eef3fb] text-primary text-sm px-4 py-3 rounded-lg cursor-pointer hover:bg-[#e0ebfa] transition-colors">
-              🖼️ Choose from Gallery
+               Choose from Gallery
               <input
                 type="file"
                 accept="image/*"
